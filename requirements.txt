@@ -4,3 +4,4 @@ werkzeug
 python-dotenv
 PyPDF2
 python-docx
+gunicorn==23.0.0
