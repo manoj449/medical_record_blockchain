@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2 class="text-center">Dashboard</h2>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="file">Upload Medical Record</label>
+        <input type="file" class="form-control-file" id="file" name="file" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+<a href="{{ url_for('records') }}" class="btn btn-secondary mt-3">View Records</a>
+<a href="{{ url_for('access_requests') }}" class="btn btn-info mt-3">Access Requests</a>
+{% endblock %}

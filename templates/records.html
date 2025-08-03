@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+   {% block title %}Records{% endblock %}
+   {% block content %}
+   <h2 class="text-center">Your Medical Records</h2>
+   <table class="table table-striped">
+       <thead>
+           <tr>
+               <th>File Name</th>
+               <th>File Type</th>
+               <th>Timestamp</th>
+               <th>Block Hash</th>
+               <th>Previous Hash</th>
+               <th>Preview</th>
+           </tr>
+       </thead>
+       <tbody>
+           {% for record in records %}
+           <tr>
+               <td>{{ record[0] }}</td>
+               <td>{{ record[1] }}</td>
+               <td>{{ record[5] }}</td>
+               <td>{{ record[3] }}</td>
+               <td>{{ record[4] }}</td>
+               <td>
+                   {% if record[1] in ['txt', 'pdf', 'doc', 'docx'] %}
+                       <a href="{{ url_for('static', filename=record[2]) }}" target="_blank">View File</a>
+                   {% elif record[1] in ['jpg', 'jpeg', 'png', 'dcm'] %}
+                       <img src="{{ url_for('static', filename=record[2]) }}" alt="{{ record[0] }}" style="max-width: 100px; max-height: 100px;" onerror="this.src='{{ url_for('static', filename='default.jpg') }}';">
+                   {% elif record[1] in ['mp3', 'wav'] %}
+                       <audio controls>
+                           <source src="{{ url_for('static', filename=record[2]) }}" type="audio/{{ record[1] }}">
+                           Your browser does not support the audio element.
+                       </audio>
+                   {% elif record[1] in ['mp4', 'avi'] %}
+                       <video width="320" height="240" controls>
+                           <source src="{{ url_for('static', filename=record[2]) }}" type="video/{{ record[1] }}">
+                           Your browser does not support the video element.
+                       </video>
+                   {% endif %}
+               </td>
+           </tr>
+           {% endfor %}
+       </tbody>
+   </table>
+   {% endblock %}

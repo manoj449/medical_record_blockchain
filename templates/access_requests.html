@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+   {% block title %}Access Requests{% endblock %}
+   {% block content %}
+   <h2 class="text-center">Access Requests</h2>
+   {% with messages = get_flashed_messages(with_categories=true) %}
+       {% if messages %}
+           {% for category, message in messages %}
+               <div class="alert alert-{{ category }}">{{ message }}</div>
+           {% endfor %}
+       {% endif %}
+   {% endwith %}
+   <p>Debug: Number of requests = {{ requests|length }}</p> <!-- Debug output -->
+   <table class="table table-striped">
+       <thead>
+           <tr>
+               <th>Doctor ID</th>
+               <th>Record IPFS Hash</th>
+               <th>Status</th>
+               <th>Timestamp</th>
+               <th>Action</th>
+           </tr>
+       </thead>
+       <tbody>
+           {% for request in requests %}
+           <tr>
+               <td>{{ request[1] }}</td>
+               <td>{{ request[3] }}</td>
+               <td>{{ request[4] }}</td>
+               <td>{{ request[5] }}</td>
+               <td>
+                   {% if request[4] == 'pending' %}
+                       <a href="{{ url_for('approve_request', request_id=request[0]) }}" class="btn btn-success btn-sm">Approve</a>
+                   {% endif %}
+               </td>
+           </tr>
+           {% endfor %}
+       </tbody>
+   </table>
+   {% endblock %}
